@@ -8,5 +8,5 @@ export abstract class AbstractRouteConfig {
         this.configure();
     }
 
-    abstract configure(): express.Application;
+    abstract configure(): void;
 }
