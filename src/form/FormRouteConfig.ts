@@ -1,4 +1,4 @@
-import {AbstractRouteConfig} from "../config/AbstractRouteConfig";
+import {AbstractRouteConfig} from "../common/AbstractRouteConfig";
 import express from 'express';
 
 export class FormRouteConfig extends AbstractRouteConfig {
