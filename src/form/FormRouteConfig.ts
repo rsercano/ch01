@@ -1,5 +1,7 @@
 import {AbstractRouteConfig} from "../common/AbstractRouteConfig";
 import express from 'express';
+import FormController from "./controller/FormController";
+import FormValidator from "./service/FormValidator";
 
 export class FormRouteConfig extends AbstractRouteConfig {
 
@@ -8,20 +10,27 @@ export class FormRouteConfig extends AbstractRouteConfig {
     }
 
     configure() {
-        this.app.put('/form/') // create new form
+        /**
+         * (req, res, next) => {
+                    UserValidator.checkLogin(true, req, res, next);
+                },
+         */
+        this.app.post('/form/', [
+            FormValidator.validate,
+            FormController.save
+        ]);
         this.app.route('/form/:formId')
-            .get() // get the form with all questions/options
-            .post() // update
-            .delete() // delete the form with all questions/options
+            .get(FormController.read)
+            .delete(FormController.delete)
 
-        this.app.put('/form/:formId/question') // create new question
-        this.app.route('/form/:formId/question/:questionId')
+        this.app.put('/form/:id/question') // create new question
+        this.app.route('/question/:id')
             .get() // get the question
             .post() // update the question
             .delete() // delete the question
 
-        this.app.put('/form/:formId/question/:questionId/options') // create new options
-        this.app.route('/form/:formId/question/:questionId/options/:optionId')
+        this.app.put('/question/:id/options') // create new options
+        this.app.route('/options/:id')
             .get() // get the option
             .post() // update the option
             .delete() // delete the option
