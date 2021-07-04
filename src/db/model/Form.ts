@@ -12,10 +12,7 @@ export class Form {
 
     @OneToMany(() => Question,
         question => question.form,
-        {
-            cascade: true,
-            onDelete: "CASCADE"
-        }
+        {cascade: true}
     )
     questions: Question[];
 }

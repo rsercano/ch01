@@ -4,6 +4,7 @@ import FormController from "./controller/FormController";
 import FormValidator from "./service/FormValidator";
 import UserValidator from "../user/service/UserValidator";
 import QuestionController from "./controller/QuestionController";
+import OptionController from "./controller/OptionController";
 
 export class FormRouteConfig extends AbstractRouteConfig {
 
@@ -20,7 +21,8 @@ export class FormRouteConfig extends AbstractRouteConfig {
             FormController.save
         ]);
         this.app.route('/form/:id')
-            .get((req, res, next) => {
+            .get(
+                (req, res, next) => {
                     return UserValidator.checkLogin(false, req, res, next);
                 },
                 FormController.read
@@ -40,23 +42,42 @@ export class FormRouteConfig extends AbstractRouteConfig {
             QuestionController.save
         ])
         this.app.route('/question/:id')
-            .get((req, res, next) => {
+            .get(
+                (req, res, next) => {
                     return UserValidator.checkLogin(false, req, res, next);
                 },
                 QuestionController.read
             )
-            .delete((req, res, next) => {
+            .delete(
+                (req, res, next) => {
                     return UserValidator.checkLogin(true, req, res, next);
                 },
                 QuestionController.delete
             )
 
-        this.app.post('/option')
+        this.app.post('/option', [
+            (req, res, next) => {
+                return UserValidator.checkLogin(true, req, res, next);
+            },
+            FormValidator.validateRequiredFields,
+            FormValidator.validateOptionSave,
+            OptionController.save
+        ])
         this.app.route('/option/:id')
-            .get() // get the option
-            .post() // update the option
-            .delete() // delete the option
+            .get(
+                (req, res, next) => {
+                    return UserValidator.checkLogin(false, req, res, next);
+                },
+                OptionController.read
+            )
+            .delete(
+                (req, res, next) => {
+                    return UserValidator.checkLogin(true, req, res, next);
+                },
+                OptionController.delete
+            )
 
+        //TODO
         this.app.route('/form/:formId/:id')
             .put() // submit the form
             .get() // get the submitted form data

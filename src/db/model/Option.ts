@@ -11,7 +11,8 @@ export class Option {
     label: string;
 
     @ManyToOne(() => Question,
-        question => question.options)
+        question => question.options,
+        {onDelete: "CASCADE"})
     question: Question;
 }
 

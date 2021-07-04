@@ -3,7 +3,7 @@ import User from "../../db/model/User";
 export interface OptionDto {
     id: number;
     label: string;
-    questionId: string;
+    questionId?: string;
 }
 
 export interface QuestionDto {

@@ -16,15 +16,12 @@ export class Question {
 
     @OneToMany(() => Option,
         option => option.question,
-        {
-            cascade: true,
-            onDelete: "CASCADE"
-        }
+        {cascade: true}
     )
     options: Option[];
 
     @ManyToOne(() => Form,
-        form => form.questions)
+        form => form.questions, {onDelete: "CASCADE"})
     form: Form;
 }
 
