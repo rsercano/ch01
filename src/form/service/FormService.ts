@@ -16,6 +16,7 @@ export class FormService extends AbstractService<FormDto, Form> {
     }
 
     public convertEntityToDto = async (entity: Form): Promise<FormDto> => {
+        if (!entity) return {} as FormDto;
         return {
             id: entity.id,
             label: entity.label,

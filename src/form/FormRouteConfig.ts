@@ -18,9 +18,17 @@ export class FormRouteConfig extends AbstractRouteConfig {
             FormValidator.validate,
             FormController.save
         ]);
-        this.app.route('/form/:formId')
-            .get(FormController.read)
-            .delete(FormController.delete)
+        this.app.route('/form/:id')
+            .get((req, res, next) => {
+                    return UserValidator.checkLogin(false, req, res, next);
+                },
+                FormController.read
+            )
+            .delete((req, res, next) => {
+                    return UserValidator.checkLogin(true, req, res, next);
+                },
+                FormController.delete
+            )
 
         this.app.put('/form/:id/question') // create new question
         this.app.route('/question/:id')
@@ -34,7 +42,7 @@ export class FormRouteConfig extends AbstractRouteConfig {
             .post() // update the option
             .delete() // delete the option
 
-        this.app.route('/form/:formId/:userId')
+        this.app.route('/form/:formId/:id')
             .put() // submit the form
             .get() // get the submitted form data
     }

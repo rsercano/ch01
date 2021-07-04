@@ -20,6 +20,8 @@ export class UserService extends AbstractService<UserDto, User> {
     }
 
     public convertEntityToDto = async (entity: User): Promise<UserDto> => {
+        if (!entity) return {} as UserDto;
+
         return {
             id: entity.id,
             firstName: entity.firstName,

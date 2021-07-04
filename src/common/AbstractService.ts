@@ -23,7 +23,15 @@ export abstract class AbstractService<Dto, Entity> {
     }
 
     public delete = async (id: string, target: ObjectType<Entity>): Promise<boolean> => {
-        const deleteResult = await this.db.delete(id, target);
+        function tryParseInt(id: string) {
+            let number = parseInt(id);
+            if (!isNaN(number)) {
+                return number;
+            }
+            throw new Error("You need to provide a number as ID");
+        }
+
+        const deleteResult = await this.db.delete(tryParseInt(id), target);
         return deleteResult.affected > 0;
     }
 

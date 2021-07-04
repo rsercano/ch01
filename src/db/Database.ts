@@ -51,8 +51,8 @@ export class Database {
         return await conn.manager.count(target, query) > 0;
     }
 
-    public async delete<T>(id: string, target: ObjectType<T>): Promise<DeleteResult> {
+    public async delete<T>(id: number, target: ObjectType<T>): Promise<DeleteResult> {
         const conn = await Database.connection;
-        return conn.manager.delete(target, id);
+        return conn.manager.delete(target, {id});
     }
 }
