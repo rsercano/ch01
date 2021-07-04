@@ -5,6 +5,7 @@ import Question from "./model/Question";
 import User from "./model/User";
 import Submission from "./model/Submission";
 import {Connection} from "typeorm/connection/Connection";
+import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
 
 export class Database {
 
@@ -36,9 +37,9 @@ export class Database {
         return conn.manager.save(entity);
     }
 
-    public async read<T>(id: string, target: ObjectType<T>): Promise<T> {
+    public async read<T>(id: string, target: ObjectType<T>, options?: FindOneOptions<T>): Promise<T> {
         const conn = await Database.connection;
-        return conn.manager.findOne(target, id);
+        return conn.manager.findOne(target, id, options);
     }
 
     public async readByQuery<T>(query: any, target: ObjectType<T>): Promise<T> {

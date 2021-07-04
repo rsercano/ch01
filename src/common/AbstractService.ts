@@ -1,5 +1,6 @@
 import {Database} from "../db/Database";
 import {ObjectType} from "typeorm/common/ObjectType";
+import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
 
 export abstract class AbstractService<Dto, Entity> {
 
@@ -16,8 +17,8 @@ export abstract class AbstractService<Dto, Entity> {
         return this.convertEntityToDto(savedEntity);
     }
 
-    public read = async (id: string, target: ObjectType<Entity>): Promise<Dto> => {
-        const entity = await this.db.read(id, target);
+    public read = async (id: string, target: ObjectType<Entity>, options?: FindOneOptions<Entity>): Promise<Dto> => {
+        const entity = await this.db.read(id, target, options);
 
         return this.convertEntityToDto(entity);
     }

@@ -1,6 +1,7 @@
 import {AbstractService} from "../../common/AbstractService";
 import Form from "../../db/model/Form";
-import {FormDto} from "../dto/Types";
+import {FormDto, QuestionDto} from "../dto/Types";
+import {QuestionService} from "./QuestionService";
 
 export class FormService extends AbstractService<FormDto, Form> {
 
@@ -20,8 +21,24 @@ export class FormService extends AbstractService<FormDto, Form> {
         return {
             id: entity.id,
             label: entity.label,
-            questions: entity.questions
+            questions: FormService.convertQuestions(entity.questions, entity.id)
         } as FormDto;
     }
 
+    private static convertQuestions(questions, formId: number): QuestionDto[] {
+        const result = [] as QuestionDto[];
+        if (questions && Array.isArray(questions)) {
+            for (const question of questions) {
+                result.push({
+                    id: question.id,
+                    label: question.label,
+                    required: question.required,
+                    options: QuestionService.convertOptions(question.options, question.id),
+                    formId
+                });
+            }
+        }
+
+        return result;
+    }
 }

@@ -6,7 +6,7 @@ import {FormService} from "../service/FormService";
 class FormController extends AbstractController<FormDto, Form> {
 
     constructor() {
-        super(Form, new FormService());
+        super(Form, new FormService(), {relations: ['questions', 'questions.options']});
     }
 }
 

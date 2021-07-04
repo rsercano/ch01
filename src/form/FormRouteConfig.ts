@@ -3,6 +3,7 @@ import express from 'express';
 import FormController from "./controller/FormController";
 import FormValidator from "./service/FormValidator";
 import UserValidator from "../user/service/UserValidator";
+import QuestionController from "./controller/QuestionController";
 
 export class FormRouteConfig extends AbstractRouteConfig {
 
@@ -15,7 +16,7 @@ export class FormRouteConfig extends AbstractRouteConfig {
             (req, res, next) => {
                 return UserValidator.checkLogin(true, req, res, next);
             },
-            FormValidator.validate,
+            FormValidator.validateRequiredFields,
             FormController.save
         ]);
         this.app.route('/form/:id')
@@ -30,14 +31,28 @@ export class FormRouteConfig extends AbstractRouteConfig {
                 FormController.delete
             )
 
-        this.app.put('/form/:id/question') // create new question
+        this.app.post('/question', [
+            (req, res, next) => {
+                return UserValidator.checkLogin(true, req, res, next);
+            },
+            FormValidator.validateRequiredFields,
+            FormValidator.validateQuestionSave,
+            QuestionController.save
+        ])
         this.app.route('/question/:id')
-            .get() // get the question
-            .post() // update the question
-            .delete() // delete the question
+            .get((req, res, next) => {
+                    return UserValidator.checkLogin(false, req, res, next);
+                },
+                QuestionController.read
+            )
+            .delete((req, res, next) => {
+                    return UserValidator.checkLogin(true, req, res, next);
+                },
+                QuestionController.delete
+            )
 
-        this.app.put('/question/:id/options') // create new options
-        this.app.route('/options/:id')
+        this.app.post('/option')
+        this.app.route('/option/:id')
             .get() // get the option
             .post() // update the option
             .delete() // delete the option
