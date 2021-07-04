@@ -26,8 +26,6 @@ export class User {
         submission => submission.user
     )
     submissions?: Submission[];
-
-    //TODO hash password before insert
 }
 
 export default User;
