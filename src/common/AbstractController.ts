@@ -5,7 +5,7 @@ import {FindOneOptions} from "typeorm/find-options/FindOneOptions";
 
 export abstract class AbstractController<Dto, Entity> {
 
-    private service: AbstractService<Dto, Entity>;
+    protected service: AbstractService<Dto, Entity>;
     private type: ObjectType<Entity>;
     private options?: FindOneOptions<Entity>;
 

@@ -1,4 +1,4 @@
-import {Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import User from "./User";
 import Question from "./Question";
 import Option from "./Option";
@@ -13,13 +13,12 @@ export class Submission {
         user => user.submissions)
     user: User;
 
-    @OneToOne(() => Question)
-    @JoinColumn()
+    @ManyToOne(() => Question, {onDelete: "CASCADE"})
     question: Question;
 
-    @OneToOne(() => Option)
-    @JoinColumn()
-    option: Option;
+    @ManyToMany(() => Option, {onDelete: "CASCADE"})
+    @JoinTable()
+    options: Option[];
 }
 
 export default Submission;

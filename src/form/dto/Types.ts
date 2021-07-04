@@ -1,5 +1,3 @@
-import User from "../../db/model/User";
-
 export interface OptionDto {
     id: number;
     label: string;
@@ -22,6 +20,7 @@ export interface FormDto {
 
 export interface Submission {
     id: string;
-    user: User;
-    questions: QuestionDto[];
+    userId: string;
+    questionId: string;
+    optionId: string;
 }

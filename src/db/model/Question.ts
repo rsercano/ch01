@@ -1,6 +1,7 @@
 import {Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import Option from "./Option";
 import Form from "./Form";
+import Submission from "./Submission";
 
 @Entity()
 export class Question {
@@ -23,6 +24,11 @@ export class Question {
     @ManyToOne(() => Form,
         form => form.questions, {onDelete: "CASCADE"})
     form: Form;
+
+    @OneToMany(() => Submission,
+        sub => sub.question
+    )
+    submissions?: Submission[];
 }
 
 export default Question;

@@ -77,10 +77,14 @@ export class FormRouteConfig extends AbstractRouteConfig {
                 OptionController.delete
             )
 
-        //TODO
-        this.app.route('/form/:formId/:id')
-            .put() // submit the form
-            .get() // get the submitted form data
+        this.app.route('/form/:id/submit')
+            .put(
+                (req, res, next) => {
+                    return UserValidator.checkLogin(false, req, res, next);
+                },
+                FormValidator.validateSubmit,
+                FormController.submit
+            )
     }
 
 }
