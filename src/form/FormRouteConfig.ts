@@ -2,6 +2,7 @@ import {AbstractRouteConfig} from "../common/AbstractRouteConfig";
 import express from 'express';
 import FormController from "./controller/FormController";
 import FormValidator from "./service/FormValidator";
+import UserValidator from "../user/service/UserValidator";
 
 export class FormRouteConfig extends AbstractRouteConfig {
 
@@ -10,12 +11,10 @@ export class FormRouteConfig extends AbstractRouteConfig {
     }
 
     configure() {
-        /**
-         * (req, res, next) => {
-                    UserValidator.checkLogin(true, req, res, next);
-                },
-         */
         this.app.post('/form/', [
+            (req, res, next) => {
+                return UserValidator.checkLogin(true, req, res, next);
+            },
             FormValidator.validate,
             FormController.save
         ]);

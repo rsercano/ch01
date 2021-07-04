@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 export class UserService extends AbstractService<UserDto, User> {
 
     public convertDtoToEntity = async (dto: UserDto): Promise<User> => {
-        const entity = new User()
+        const entity = new User();
         const literal = {
             id: dto.id,
             firstName: dto.firstName,
